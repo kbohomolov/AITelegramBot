@@ -1,5 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
+
 main_keyboard = ReplyKeyboardMarkup(keyboard=[
     [KeyboardButton(text='🤖 Почати діалог зі ШІ'), KeyboardButton(text='⁉️ FAQ (Поширені питання)')],
     [KeyboardButton(text='⚙️ Налаштування'), KeyboardButton(text='🔐 Панель адміністратора')],
