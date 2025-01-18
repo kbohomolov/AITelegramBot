@@ -11,11 +11,11 @@ from app.database.models import async_main
 
 
 async def main():
+    await async_main()
     load_dotenv()
     bot = Bot(token=os.getenv('TOKEN'))
     dp = Dispatcher()
     dp.include_routers(user_router, admin_router)
-    await async_main()
     await dp.start_polling(bot)
 
 
