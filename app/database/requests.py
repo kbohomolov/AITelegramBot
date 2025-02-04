@@ -1,5 +1,5 @@
 from app.database.models import async_session
-from app.database.models import User, Admin
+from app.database.models import User
 from sqlalchemy import select
 
 
@@ -17,3 +17,9 @@ async def add_user(telegram_id, username, registration_date, is_admin):
             )
             session.add(new_user)
             await session.commit()
+        return user
+    
+async def get_user(telegram_id):
+    async with async_session() as session:
+        user_information = await session.scalar(select(User).where(User.telegram_id == telegram_id))
+        return user_information
