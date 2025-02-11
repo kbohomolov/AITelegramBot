@@ -3,7 +3,6 @@ from app.database.models import User
 from sqlalchemy import select
 
 
-
 async def add_user(telegram_id, username, registration_date, is_admin):
     async with async_session() as session:
         user = await session.scalar(select(User).where(User.telegram_id == telegram_id))
@@ -18,8 +17,9 @@ async def add_user(telegram_id, username, registration_date, is_admin):
             session.add(new_user)
             await session.commit()
         return user
-    
-async def get_user(telegram_id):
+
+async def get_user(telegram_id: int) -> User | None:
     async with async_session() as session:
-        user_information = await session.scalar(select(User).where(User.telegram_id == telegram_id))
+        user = await session.execute(select(User).where(User.telegram_id == telegram_id))
+        user_information = user.scalar_one_or_none()
         return user_information
