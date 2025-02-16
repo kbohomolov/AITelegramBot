@@ -18,6 +18,26 @@ async def add_user(telegram_id, username, registration_date, is_admin):
             await session.commit()
         return user
 
+async def update_user_language(telegram_id: int, language: str) -> bool:
+    async with async_session() as session:
+        user = await session.execute(select(User).where(User.telegram_id == telegram_id))
+        user_language = user.scalar_one_or_none()
+        if user_language:
+            user_language.language = language
+            await session.commit()
+            return True
+        return False
+
+async def update_user_ai_model(telegram_id: int, ai_model: str) -> bool:
+    async with async_session() as session:
+        user = await session.execute(select(User).where(User.telegram_id == telegram_id))
+        user_ai_model_info = user.scalar_one_or_none()
+        if user_ai_model_info:
+            user_ai_model_info.ai_model = ai_model
+            await session.commit()
+            return True
+        return False
+
 async def get_user(telegram_id: int) -> User | None:
     async with async_session() as session:
         user = await session.execute(select(User).where(User.telegram_id == telegram_id))
