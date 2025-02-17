@@ -25,6 +25,7 @@ class User(Base):
     language = mapped_column(String(20), default='ukrainian', nullable=False)
     ai_model = mapped_column(String(50), default='Mistral AI', nullable=False)
     is_admin: Mapped[Boolean] = mapped_column(Boolean, default=False, nullable=False)
+    is_active: Mapped[Boolean] = mapped_column(Boolean, default=True, nullable=False)
 
 async def async_main():
     async with engine.begin() as conn:
