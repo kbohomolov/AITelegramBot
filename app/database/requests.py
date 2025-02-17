@@ -43,3 +43,24 @@ async def get_user(telegram_id: int) -> User | None:
         user = await session.execute(select(User).where(User.telegram_id == telegram_id))
         user_information = user.scalar_one_or_none()
         return user_information
+
+
+async def activate_user(telegram_id: int) -> bool:
+    async with async_session() as session:
+        user = await session.execute(select(User).where(User.telegram_id == telegram_id))
+        user_information = user.scalar_one_or_none()
+        if user_information:
+            user_information.is_active = True
+            await session.commit()
+            return True
+        return False
+
+async def deactivate_user(telegram_id: int) -> bool:
+    async with async_session() as session:
+        user = await session.execute(select(User).where(User.telegram_id == telegram_id))
+        user_information = user.scalar_one_or_none()
+        if user_information:
+            user_information.is_active = False
+            await session.commit()
+            return True
+        return False
