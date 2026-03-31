@@ -28,16 +28,6 @@ async def update_user_language(telegram_id: int, language: str) -> bool:
             return True
         return False
 
-async def update_user_ai_model(telegram_id: int, ai_model: str) -> bool:
-    async with async_session() as session:
-        user = await session.execute(select(User).where(User.telegram_id == telegram_id))
-        user_ai_model_info = user.scalar_one_or_none()
-        if user_ai_model_info:
-            user_ai_model_info.ai_model = ai_model
-            await session.commit()
-            return True
-        return False
-
 async def get_user(telegram_id: int) -> User | None:
     async with async_session() as session:
         user = await session.execute(select(User).where(User.telegram_id == telegram_id))
