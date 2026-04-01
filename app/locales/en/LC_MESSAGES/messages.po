@@ -1,0 +1,126 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+
+msgid "admin_welcome"
+msgstr "Welcome, {name}! You are logged in as administrator."
+
+msgid "main_menu_text"
+msgstr ""
+"Welcome, {name}!\n\n"
+"<b>Please use the main menu below for navigation.</b>"
+
+msgid "start_ai"
+msgstr "🤖 Start AI chat"
+
+msgid "faq"
+msgstr "⁉️ FAQ"
+
+msgid "settings"
+msgstr "⚙️ Settings"
+
+msgid "back_main"
+msgstr "🏠 Back to main menu"
+
+msgid "enter_request"
+msgstr "🤖 <b>Enter your request:</b>"
+
+msgid "faq_text"
+msgstr ""
+"Hello, {name}!\n\n"
+"I am an intelligent chatbot <b>Franchesco AI</b>, built on modern AI models. "
+"I provide support for analyzing requests, generating meaningful responses, and giving practical IT advice. "
+"My capabilities include programming, databases, infrastructure, cloud technologies, and more.\n\n"
+"Ask your question — I will definitely help you!"
+
+msgid "faq_examples"
+msgstr "🧠 Bot capabilities"
+
+msgid "faq_usage"
+msgstr "💬 How to use the bot"
+
+msgid "faq_examples_text"
+msgstr ""
+"📌 <b>Examples of using Franchesco AI</b>\n\n"
+"• Explain async vs sync in Python\n"
+"• What are SQL indexes?\n"
+"• Docker vs VM\n\n"
+"These are just examples. You can ask any IT-related questions."
+
+msgid "faq_usage_text"
+msgstr ""
+"💬 <b>How to use the bot</b>\n\n"
+"1️⃣ Ask clearly\n"
+"2️⃣ Add context\n"
+"3️⃣ Get an answer\n\n"
+"The more precise your question — the better the answer."
+
+msgid "back"
+msgstr "↩️ Back"
+
+msgid "settings_text"
+msgstr ""
+"Welcome to settings!\n\n"
+"<b>👤 My profile</b> — view and update your personal data.\n\n"
+"<b>🤖 Choose/Change AI model</b> — select AI model.\n\n"
+"<b>🌎 Change interface language</b> — choose your language.\n\n"
+"<b>🏠 Back to main menu</b> — return to main section."
+
+msgid "profile_text"
+msgstr ""
+"👤 <b>Your profile</b>\n\n"
+"🆔 ID: {id}\n"
+"📆 Registration: {date}\n"
+"🔐 Role: {role}\n"
+"🤖 AI model: {model}\n"
+"🌎 Language: {language}"
+
+msgid "role_admin"
+msgstr "👑 Administrator"
+
+msgid "role_user"
+msgstr "👤 User"
+
+msgid "profile"
+msgstr "👤 My profile"
+
+msgid "change_lang"
+msgstr "🌎 Change interface language"
+
+msgid "role_admin"
+msgstr "👑 Administrator"
+
+msgid "role_user"
+msgstr "👤 User"
+
+msgid "delete_account"
+msgstr "🗑 Delete account"
+
+msgid "confirm_delete"
+msgstr "✅ Yes, delete"
+
+msgid "cancel"
+msgstr "❌ Cancel"
+
+msgid "delete_confirm"
+msgstr "<b>Are you sure you want to delete your account?</b>"
+
+msgid "delete_success"
+msgstr ""
+"<b>Account successfully deleted.</b>\n\n"
+"Use /start to register again"
+
+msgid "language_current"
+msgstr "🌎 <b>Current language:</b> {language}\n\nChoose a new interface language:"
+
+msgid "ukrainian"
+msgstr "🇺🇦 Ukrainian"
+
+msgid "english"
+msgstr "🇬🇧 English"
+
+msgid "account_deleted"
+msgstr ""
+"<b>Your account has been deleted.\n"
+"Use /start to register again</b>"
