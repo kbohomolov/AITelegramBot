@@ -61,3 +61,8 @@ def language_menu(locale: str) -> InlineKeyboardMarkup:
         [InlineKeyboardButton(text=_("back", locale=locale), callback_data="user_redirect_to_settings_menu")],
         [InlineKeyboardButton(text=_("back_main", locale=locale), callback_data="user_redirect_to_main_menu")]
     ])
+
+def end_dialog_menu(locale: str) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=_("back_main", locale=locale), callback_data="user_redirect_to_main_menu")]
+    ])
