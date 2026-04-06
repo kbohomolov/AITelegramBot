@@ -4,6 +4,8 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.exceptions import TelegramBadRequest
 from functools import wraps
 from aiogram.utils.i18n import gettext as _
+from sqlalchemy.future import select
+from app.database.models import async_session, KnowledgeBase
 
 import app.keyboards.inline_keyboard as inline_kb
 import app.database.requests as rq
@@ -112,12 +114,53 @@ async def start_command(message: Message, locale):
     else:
         await send_main_menu(message, message.from_user.full_name, locale)
 
+last_ai_messages: dict[int, int] = {}
+
 @user_router.message(F.text == "🤖 Почати діалог зі ШІ")
 @check_active_user
 async def reply_start_ai(message: Message, locale):
-    await message.answer(
+    sent_msg = await message.answer(
         _("enter_request", locale=locale),
         reply_markup=inline_kb.start_ai_menu(locale)
+    )
+    last_ai_messages[message.from_user.id] = sent_msg.message_id
+
+@user_router.message()
+@check_active_user
+async def handle_user_query(message: Message, locale):
+    user_id = message.from_user.id
+    start_msg_id = last_ai_messages.pop(user_id, None)
+    if start_msg_id:
+        try:
+            await message.bot.delete_message(
+                chat_id=message.chat.id,
+                message_id=start_msg_id
+            )
+        except TelegramBadRequest:
+            pass
+
+    user_query = message.text.strip().lower()
+    async with async_session() as session:
+        result = await session.execute(
+            select(KnowledgeBase).where(KnowledgeBase.question.ilike(f"%{user_query}%"))
+        )
+        kb_item = result.scalars().first()
+
+    answer = kb_item.answer if kb_item else _("no_answer_found", locale=locale)
+    await message.reply(
+        answer,
+        reply_markup=inline_kb.end_dialog_menu(locale)
+    )
+
+@user_router.callback_query(F.data == "end_ai_dialog")
+@check_active_user
+async def end_ai_dialog(callback: CallbackQuery, locale: str):
+    if callback.from_user.id in last_ai_messages:
+        del last_ai_messages[callback.from_user.id]
+
+    await callback.message.edit_text(
+        _("dialog_ended", locale=locale),
+        reply_markup=inline_kb.main_menu(locale)
     )
 
 @user_router.message(F.text == "⁉️ FAQ")
@@ -137,6 +180,7 @@ async def start_ai(callback: CallbackQuery, locale):
         _("enter_request", locale=locale),
         reply_markup=inline_kb.start_ai_menu(locale)
     )
+    last_ai_messages[callback.from_user.id] = callback.message.message_id
 
 @user_router.callback_query(F.data == "menu_faq")
 @check_active_user
