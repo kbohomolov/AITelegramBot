@@ -124,3 +124,6 @@ msgid "account_deleted"
 msgstr ""
 "<b>Your account has been deleted.\n"
 "Use /start to register again</b>"
+
+msgid "no_answer_found"
+msgstr "Anyway, I don't know any recommendations for your question. Try to reformulate the request."
