@@ -6,6 +6,7 @@ from functools import wraps
 from aiogram.utils.i18n import gettext as _
 from sqlalchemy.future import select
 from app.database.models import async_session, KnowledgeBase
+from app.services.ai_service import get_ai_response
 
 import app.keyboards.inline_keyboard as inline_kb
 import app.database.requests as rq
@@ -62,7 +63,7 @@ async def send_user_profile(event: Message | CallbackQuery, locale: str):
         id=user_info.id,
         date=registration_date,
         role=role,
-        model="GPT-4.1",
+        model="GPT-4o-mini",
         language=language
     )
 
@@ -139,18 +140,36 @@ async def handle_user_query(message: Message, locale):
         except TelegramBadRequest:
             pass
 
-    user_query = message.text.strip().lower()
+    user_query = message.text.strip()
+
+    await message.bot.send_chat_action(
+        chat_id=message.chat.id,
+        action="typing"
+    )
+
     async with async_session() as session:
         result = await session.execute(
-            select(KnowledgeBase).where(KnowledgeBase.question.ilike(f"%{user_query}%"))
+            select(KnowledgeBase).where(
+                KnowledgeBase.question.ilike(f"%{user_query.lower()}%")
+            )
         )
         kb_item = result.scalars().first()
 
-    answer = kb_item.answer if kb_item else _("no_answer_found", locale=locale)
-    await message.reply(
-        answer,
-        reply_markup=inline_kb.end_dialog_menu(locale)
-    )
+    if kb_item:
+        answer = kb_item.answer
+    else:
+        answer = await get_ai_response(user_query, locale)
+    try:
+        await message.reply(
+            answer,
+            reply_markup=inline_kb.end_dialog_menu(locale),
+            parse_mode="Markdown"
+        )
+    except Exception:
+        await message.reply(
+            answer,
+            reply_markup=inline_kb.end_dialog_menu(locale)
+        )
 
 @user_router.callback_query(F.data == "end_ai_dialog")
 @check_active_user
